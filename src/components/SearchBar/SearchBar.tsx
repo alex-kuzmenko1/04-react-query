@@ -9,7 +9,7 @@ interface SearchBarProps {
 export default function SearchBar({ onSubmit }: SearchBarProps) {
   const formRef = useRef<HTMLFormElement>(null);
 
- async function formAction(formData: FormData) {
+  async function formAction(formData: FormData) {
     const query = (formData.get("query") as string).trim();
 
     if (!query) {
@@ -18,8 +18,8 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
     }
 
     onSubmit(query);
-      formRef.current?.reset();
-  };
+    formRef.current?.reset();
+  }
 
   return (
     <header className={styles.header}>
@@ -32,7 +32,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
         >
           Powered by TMDB
         </a>
-        <form className={styles.form} action={formAction}>
+        <form ref={formRef} className={styles.form} action={formAction}>
           <input
             className={styles.input}
             type="text"
