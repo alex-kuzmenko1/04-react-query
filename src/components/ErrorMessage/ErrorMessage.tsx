@@ -1,6 +1,9 @@
-import { JSX } from 'react';
-import styles from './ErrorMessage.module.css';
+import styles from "./ErrorMessage.module.css";
 
-export default function ErrorMessage(): JSX.Element {
-  return <p className={styles.text}>There was an error, please try again...</p>;
+interface ErrorMessageProps {
+  message: string;
+}
+
+export default function ErrorMessage({ message }: ErrorMessageProps) {
+  return <p className={styles.text}>{message}</p>;
 }

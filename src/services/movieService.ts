@@ -1,13 +1,26 @@
-const API_KEY = '4e70b70ecdcc36f6a34bf9995c2b1288'; 
-const BASE_URL = 'https://api.themoviedb.org/3';
+import axios from "axios";
+import type { Movie } from "../types/movie";
 
-export async function fetchMovies({ query, page = 1 }: { query: string; page?: number }) {
-  const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=${page}`;
 
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error('Failed to fetch movies');
+const API_URL = "https://api.themoviedb.org/3/search/movie";
+const API_TOKEN = import.meta.env.VITE_API_TOKEN;
+
+export interface FetchMoviesResponse {
+  results: Movie[];
+  total_pages: number;
   }
 
-  return res.json(); 
-}
+export const fetchMovies = async (
+  query: string,
+  page: number
+): Promise<FetchMoviesResponse> => {
+  const config = {
+    params: { query, page },
+    headers: {
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  };
+
+  const response = await axios.get<FetchMoviesResponse>(API_URL, config);
+  return response.data;
+};
